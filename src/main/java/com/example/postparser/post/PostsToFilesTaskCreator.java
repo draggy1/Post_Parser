@@ -8,20 +8,19 @@ import java.io.File;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-public final class PostsToFilesTaskCreator {
+public record PostsToFilesTaskCreator(Repository postRepository, PostFileCreator creator) {
     @Inject
-    private Repository postRepository;
-    @Inject
-    private PostFileCreator creator;
+    public PostsToFilesTaskCreator {
+    }
 
-    public List<Callable<Result>> prepareSaveToFileTasks(List<Post> posts) {
+    List<Callable<Result>> createSaveToFileTasks(List<Post> posts) {
         return posts
                 .stream()
-                .map(this::prepareSaveToFileTask)
+                .map(this::createSaveToFileTask)
                 .toList();
     }
 
-    private Callable<Result> prepareSaveToFileTask(Post post) {
+    private Callable<Result> createSaveToFileTask(Post post) {
         final File file = creator.getFile(post);
         return () -> postRepository.save(post, file);
     }

@@ -5,5 +5,5 @@ import com.example.postparser.post.Post;
 import java.util.List;
 
 public interface Api {
-    List<Post> getAllPosts(String baseUrl);
+    List<Post> getAllPosts();
 }

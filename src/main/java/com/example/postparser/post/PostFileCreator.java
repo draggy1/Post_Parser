@@ -7,12 +7,9 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class PostFileCreator {
-    private final PlaceholderConfiguration config;
-
+public record PostFileCreator(PlaceholderConfiguration config) {
     @Inject
-    public PostFileCreator(PlaceholderConfiguration config) {
-        this.config = config;
+    public PostFileCreator {
     }
 
     File getFile(Post post) {

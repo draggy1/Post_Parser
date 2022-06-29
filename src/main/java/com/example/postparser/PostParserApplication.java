@@ -8,7 +8,7 @@ import com.google.inject.Injector;
 public class PostParserApplication {
     public static void main(String[] args) {
         Injector injector = Guice.createInjector(new PostParserModule());
-        PostParserService mySystemInstance = injector.getInstance(PostParserService.class);
-        mySystemInstance.parse();
+        PostParserService parserService = injector.getInstance(PostParserService.class);
+        parserService.parse();
     }
 }

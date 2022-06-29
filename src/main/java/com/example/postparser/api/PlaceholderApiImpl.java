@@ -1,10 +1,12 @@
 package com.example.postparser.api;
 
 import com.example.postparser.post.Post;
+import com.example.postparser.post.configuration.PlaceholderConfiguration;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.net.HttpHeaders;
+import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,16 +19,18 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 
-public class PlaceholderApiImpl implements Api {
+public record PlaceholderApiImpl(PlaceholderConfiguration config) implements Api {
     private static final Logger LOGGER = LoggerFactory.getLogger(PlaceholderApiImpl.class);
     public static final String POSTS = "posts";
     public static final String APPLICATION_JSON = "Application/JSON";
-    private final HttpClient client = HttpClient.newHttpClient();
-    private final ObjectMapper mapper = new ObjectMapper();
+
+    @Inject
+    public PlaceholderApiImpl {
+    }
 
     @Override
-    public List<Post> getAllPosts(String baseUrl){
-        return prepareGetPostsUri(baseUrl)
+    public List<Post> getAllPosts() {
+        return prepareGetPostsUri(config.getPlaceholderUrl())
                 .map(this::prepareGetPostsRequest)
                 .flatMap(this::sendGetPostsRequest)
                 .map(HttpResponse::body)
@@ -37,7 +41,9 @@ public class PlaceholderApiImpl implements Api {
 
     private List<Post> readPostsFromJson(String json) {
         try {
-            return mapper.readValue(json, new TypeReference<>() {});
+            final ObjectMapper mapper = new ObjectMapper();
+            return mapper.readValue(json, new TypeReference<>() {
+            });
         } catch (JsonProcessingException e) {
             LOGGER.error(String.format("Deserialization get posts request failed. Reason: %s", e.getMessage()));
             return List.of();
@@ -46,6 +52,7 @@ public class PlaceholderApiImpl implements Api {
 
     private Optional<HttpResponse<String>> sendGetPostsRequest(HttpRequest request) {
         try {
+            final HttpClient client = HttpClient.newHttpClient();
             return Optional.of(client.send(request, HttpResponse.BodyHandlers.ofString()));
         } catch (IOException | InterruptedException e) {
             LOGGER.error(String.format("Send get posts request failed. Reason: %s", e.getMessage()));
@@ -54,7 +61,7 @@ public class PlaceholderApiImpl implements Api {
 
     }
 
-    private HttpRequest prepareGetPostsRequest(URI uri){
+    private HttpRequest prepareGetPostsRequest(URI uri) {
         return HttpRequest.newBuilder()
                 .uri(uri)
                 .headers(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON)
@@ -63,11 +70,11 @@ public class PlaceholderApiImpl implements Api {
                 .build();
     }
 
-    private Optional<URI> prepareGetPostsUri(String baseUrl){
-        try{
+    private Optional<URI> prepareGetPostsUri(String baseUrl) {
+        try {
             return Optional.ofNullable(baseUrl)
                     .map(url -> URI.create(url).resolve(POSTS));
-        }catch (IllegalArgumentException ex){
+        } catch (IllegalArgumentException ex) {
             LOGGER.error(String.format("Creation of Uri failed: message: %s", ex.getMessage()));
             return Optional.empty();
         }
