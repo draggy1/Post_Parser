@@ -16,7 +16,7 @@ import static com.example.postparser.post.result.PostSaveStatus.*;
 public class PostResultHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(PostResultHandler.class);
 
-    public List<Result> handleResults(List<Future<Result>> results){
+    List<Result> handleResults(List<Future<Result>> results){
        return results
                .stream()
                .map(this::handleResult)

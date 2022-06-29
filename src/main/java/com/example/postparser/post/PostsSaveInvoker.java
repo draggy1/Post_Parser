@@ -12,8 +12,8 @@ import static com.example.postparser.post.result.PostSaveStatus.INTERRUPTED;
 
 public class PostsSaveInvoker {
     private static final Logger LOGGER = LoggerFactory.getLogger(PostsSaveInvoker.class);
-
-    public List<Future<Result>> invokeSave(List<Callable<Result>> postsToFilesTasks, ExecutorService postsToFilesExecutor) {
+    final ExecutorService postsToFilesExecutor = Executors.newCachedThreadPool();
+    List<Future<Result>> invokeSave(List<Callable<Result>> postsToFilesTasks) {
         try {
             return postsToFilesExecutor.invokeAll(postsToFilesTasks);
         } catch (InterruptedException e) {
