@@ -1,0 +1,75 @@
+package com.example.postparser.api;
+
+import com.example.postparser.post.Post;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+import java.util.List;
+import java.util.Optional;
+
+public class PlaceholderApiImpl implements Api{
+    private static final Logger LOGGER = LoggerFactory.getLogger(PlaceholderApiImpl.class);
+    public static final String POSTS = "posts";
+    private final HttpClient client = HttpClient.newHttpClient();
+    private final ObjectMapper mapper = new ObjectMapper();
+
+    @Override
+    public List<Post> getAllPosts(String baseUrl){
+        return prepareGetPostsUri(baseUrl)
+                .map(this::prepareGetPostsRequest)
+                .flatMap(this::sendGetPostsRequest)
+                .map(HttpResponse::body)
+                .map(this::readPostsFromJson)
+                .orElse(List.of());
+
+    }
+
+    private List<Post> readPostsFromJson(String json) {
+        try {
+            return mapper.readValue(json, new TypeReference<>() {});
+        } catch (JsonProcessingException e) {
+            LOGGER.error(String.format("Deserialization get posts request failed. Reason: %s", e.getMessage()));
+            return List.of();
+        }
+    }
+
+    private Optional<HttpResponse<String>> sendGetPostsRequest(HttpRequest request) {
+        try {
+            return Optional.of(client.send(request, HttpResponse.BodyHandlers.ofString()));
+        } catch (IOException | InterruptedException e) {
+            LOGGER.error(String.format("Send get posts request failed. Reason: %s", e.getMessage()));
+            return Optional.empty();
+        }
+
+    }
+
+    private HttpRequest prepareGetPostsRequest(URI uri){
+        return HttpRequest.newBuilder()
+                .uri(uri)
+                .headers(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .timeout(Duration.ofSeconds(1))
+                .GET()
+                .build();
+    }
+
+    private Optional<URI> prepareGetPostsUri(String baseUrl){
+        try{
+            return Optional.ofNullable(baseUrl)
+                    .map(url -> URI.create(url).resolve(POSTS));
+        }catch (IllegalArgumentException ex){
+            LOGGER.error(String.format("Creation of Uri failed: message: %s", ex.getMessage()));
+            return Optional.empty();
+        }
+    }
+}

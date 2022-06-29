@@ -6,12 +6,10 @@ import com.example.postparser.post.result.SuccessResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.Callable;
 
 import static com.example.postparser.post.result.PostSaveStatus.FAILURE;
@@ -20,14 +18,7 @@ import static com.example.postparser.post.result.PostSaveStatus.SUCCESS;
 public final class PostsToFilesTaskCreator {
     private static final Logger LOGGER = LoggerFactory.getLogger(PostsToFilesTaskCreator.class);
 
-    public static List<Callable<Result>> prepareTaskToPerform(WebClient placeholderApi, SavePostsContext context) {
-        return Optional.of(placeholderApi)
-                .flatMap(PostsFromApiFetcher::fetch)
-                .map(posts -> prepareSaveToFileTasks(posts, context))
-                .orElse(List.of());
-    }
-
-    private static List<Callable<Result>> prepareSaveToFileTasks(List<Post> posts, SavePostsContext context) {
+    public static List<Callable<Result>> prepareSaveToFileTasks(List<Post> posts, SavePostsContext context) {
         return posts
                 .stream()
                 .map(post -> prepareSaveToFileTask(post, context))
