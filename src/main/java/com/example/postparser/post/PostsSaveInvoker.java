@@ -2,6 +2,7 @@ package com.example.postparser.post;
 
 import com.example.postparser.post.result.InternalErrorResult;
 import com.example.postparser.post.result.Result;
+import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,9 +11,13 @@ import java.util.concurrent.*;
 
 import static com.example.postparser.post.result.PostSaveStatus.INTERRUPTED;
 
-public class PostsSaveInvoker {
+public record PostsSaveInvoker(ExecutorService postsToFilesExecutor) {
     private static final Logger LOGGER = LoggerFactory.getLogger(PostsSaveInvoker.class);
-    final ExecutorService postsToFilesExecutor = Executors.newCachedThreadPool();
+
+    @Inject
+    public PostsSaveInvoker {
+    }
+
     List<Future<Result>> invokeSave(List<Callable<Result>> postsToFilesTasks) {
         try {
             return postsToFilesExecutor.invokeAll(postsToFilesTasks);

@@ -21,7 +21,8 @@ public record PostsToFilesTaskCreator(Repository postRepository, PostFileCreator
     }
 
     private Callable<Result> createSaveToFileTask(Post post) {
-        final File file = creator.getFile(post);
+        final String absolutePath = new File("").getAbsolutePath();
+        final File file = creator.getFile(post, absolutePath);
         return () -> postRepository.save(post, file);
     }
 }

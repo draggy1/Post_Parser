@@ -2,6 +2,7 @@ package com.example.postparser.post;
 
 import com.example.postparser.post.result.FailureResult;
 import com.example.postparser.post.result.PostSaveStatus;
+import com.example.postparser.post.result.Result;
 import com.example.postparser.post.result.SuccessResult;
 
 
@@ -16,11 +17,12 @@ public class PostFixtures {
     public static final Post POST4 = new Post(3, 3, "title3", "body3");
 
 
-    public static final SuccessResult SUCCESS_RESULT0 = new SuccessResult(POST0, PostSaveStatus.SUCCESS);
-    public static final SuccessResult SUCCESS_RESULT1 = new SuccessResult(POST1, PostSaveStatus.SUCCESS);
-    public static final SuccessResult SUCCESS_RESULT2 = new SuccessResult(POST2, PostSaveStatus.SUCCESS);
-    public static final SuccessResult SUCCESS_RESULT3 = new SuccessResult(POST3, PostSaveStatus.SUCCESS);
-    public static final FailureResult FAILURE_RESULT1 = new FailureResult(POST4, PostSaveStatus.FAILURE);
+    public static final Result THROWN_BY_EXCEPTION_RESULT = new FailureResult(POST1, PostSaveStatus.FAILURE);
+    public static final Result SUCCESS_RESULT0 = new SuccessResult(POST0, PostSaveStatus.SUCCESS);
+    public static final Result SUCCESS_RESULT1 = new SuccessResult(POST1, PostSaveStatus.SUCCESS);
+    public static final Result SUCCESS_RESULT2 = new SuccessResult(POST2, PostSaveStatus.SUCCESS);
+    public static final Result SUCCESS_RESULT3 = new SuccessResult(POST3, PostSaveStatus.SUCCESS);
+    public static final Result FAILURE_RESULT1 = new FailureResult(POST4, PostSaveStatus.FAILURE);
 
     public static final File FILE_0 = new File("/home/test/tmp/directory/12.json");
     public static final File FILE_1 = new File("/home/test/tmp/directory/13.json");

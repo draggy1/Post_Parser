@@ -12,9 +12,9 @@ public record PostFileCreator(PlaceholderConfiguration config) {
     public PostFileCreator {
     }
 
-    File getFile(Post post) {
+    File getFile(Post post, String absolutePath) {
         final String fileName = String.format("%s.json", post.id());
-        Path firstPart = Path.of(new File("").getAbsolutePath());
+        Path firstPart = Path.of(absolutePath);
         Path secondPart = Paths.get(config.getFileLocalization()).resolve(fileName);
         Path full = Path.of(firstPart.toString(), secondPart.toString());
 

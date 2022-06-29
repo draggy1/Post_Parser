@@ -32,5 +32,4 @@ public record PostParserService(Api api,
                 .forEach(result -> LOGGER.info(result.getResultMessage()));
 
     }
-
 }
