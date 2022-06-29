@@ -1,10 +1,10 @@
-package com.example.postparser.configuration;
+package com.example.postparser.post.configuration;
 
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
-public class PlaceholderApiConfiguration {
+public class PlaceholderConfiguration {
     private final Config defaultConfig = ConfigFactory.parseResources("defaults.conf");
 
     public String getPlaceholderUrl(){

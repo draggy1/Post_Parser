@@ -16,14 +16,14 @@ import static com.example.postparser.post.result.PostSaveStatus.*;
 public class PostResultHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(PostResultHandler.class);
 
-    public static List<Result> handleResults(List<Future<Result>> results){
+    public List<Result> handleResults(List<Future<Result>> results){
        return results
                .stream()
-               .map(PostResultHandler::handleResult)
+               .map(this::handleResult)
                .toList();
     }
 
-    private static Result handleResult(Future<Result> result) {
+    private Result handleResult(Future<Result> result) {
         try {
             return result.get(5, TimeUnit.SECONDS);
         } catch (InterruptedException e) {

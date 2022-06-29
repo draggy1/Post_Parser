@@ -3,10 +3,7 @@ package com.example.postparser.post;
 import com.example.postparser.post.result.FailureResult;
 import com.example.postparser.post.result.PostSaveStatus;
 import com.example.postparser.post.result.SuccessResult;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.reactive.function.client.ClientResponse;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
+
 
 import java.io.File;
 
@@ -28,32 +25,4 @@ public class PostFixtures {
     public static final File FILE_0 = new File("/home/test/tmp/directory/12.json");
     public static final File FILE_1 = new File("/home/test/tmp/directory/13.json");
 
-
-
-    static WebClient prepareWebClientMock(){
-        String givenJson = """
-                [{
-                    "userId":2,
-                    "id":12,
-                    "title":"in quibusdam tempore odit est dolorem",
-                    "body":"itaque id aut magnam praesentium quia et ea odit"
-                },
-                {
-                    "userId":3,
-                    "id":13,
-                    "title":"testTitle",
-                    "body":"testBody"
-                }
-                ]
-                """;
-
-
-        return WebClient.builder()
-                .exchangeFunction(clientRequest ->
-                        Mono.just(ClientResponse.create(HttpStatus.OK)
-                                .header("content-type", "application/json")
-                                .body(givenJson)
-                                .build())
-                ).build();
-    }
 }

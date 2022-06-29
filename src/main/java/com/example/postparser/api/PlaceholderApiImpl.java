@@ -4,10 +4,9 @@ import com.example.postparser.post.Post;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.net.HttpHeaders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 
 import java.io.IOException;
 import java.net.URI;
@@ -18,9 +17,10 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 
-public class PlaceholderApiImpl implements Api{
+public class PlaceholderApiImpl implements Api {
     private static final Logger LOGGER = LoggerFactory.getLogger(PlaceholderApiImpl.class);
     public static final String POSTS = "posts";
+    public static final String APPLICATION_JSON = "Application/JSON";
     private final HttpClient client = HttpClient.newHttpClient();
     private final ObjectMapper mapper = new ObjectMapper();
 
@@ -57,7 +57,7 @@ public class PlaceholderApiImpl implements Api{
     private HttpRequest prepareGetPostsRequest(URI uri){
         return HttpRequest.newBuilder()
                 .uri(uri)
-                .headers(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .headers(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON)
                 .timeout(Duration.ofSeconds(1))
                 .GET()
                 .build();
