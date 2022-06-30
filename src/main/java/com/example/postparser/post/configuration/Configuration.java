@@ -4,7 +4,9 @@ package com.example.postparser.post.configuration;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
-public class PlaceholderConfiguration {
+import java.io.File;
+
+public class Configuration {
     private final Config defaultConfig = ConfigFactory.parseResources("defaults.conf");
 
     public String getPlaceholderUrl(){
@@ -13,5 +15,9 @@ public class PlaceholderConfiguration {
 
     public String getFileLocalization() {
         return defaultConfig.getString("conf.posts.path");
+    }
+
+    public String getAbsolutePath() {
+        return new File("").getAbsolutePath();
     }
 }

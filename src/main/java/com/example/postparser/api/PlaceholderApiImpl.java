@@ -1,7 +1,7 @@
 package com.example.postparser.api;
 
 import com.example.postparser.post.Post;
-import com.example.postparser.post.configuration.PlaceholderConfiguration;
+import com.example.postparser.post.configuration.Configuration;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,7 +19,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 
-public record PlaceholderApiImpl(PlaceholderConfiguration config) implements Api {
+public record PlaceholderApiImpl(Configuration config) implements Api {
     private static final Logger LOGGER = LoggerFactory.getLogger(PlaceholderApiImpl.class);
     public static final String POSTS = "posts";
     public static final String APPLICATION_JSON = "Application/JSON";

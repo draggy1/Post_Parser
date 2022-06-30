@@ -1,6 +1,6 @@
 package com.example.postparser.post;
 
-import com.example.postparser.post.configuration.PlaceholderConfiguration;
+import com.example.postparser.post.configuration.Configuration;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -16,7 +16,7 @@ class PostFileCreatorTest {
     @Test
     void shouldGetFile() {
         String givenLocalizationPath = "/tmp/directory";
-        PlaceholderConfiguration configMock = Mockito.spy(PlaceholderConfiguration.class);
+        Configuration configMock = Mockito.spy(Configuration.class);
         doReturn(givenLocalizationPath).when(configMock).getFileLocalization();
 
         PostFileCreator tested = new PostFileCreator(configMock);

@@ -1,13 +1,13 @@
 package com.example.postparser.post;
 
-import com.example.postparser.post.configuration.PlaceholderConfiguration;
+import com.example.postparser.post.configuration.Configuration;
 import com.google.inject.Inject;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public record PostFileCreator(PlaceholderConfiguration config) {
+public record PostFileCreator(Configuration config) {
     @Inject
     public PostFileCreator {
     }
