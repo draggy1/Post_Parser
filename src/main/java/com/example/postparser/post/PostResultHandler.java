@@ -13,9 +13,19 @@ import java.util.concurrent.TimeoutException;
 
 import static com.example.postparser.post.result.PostSaveStatus.*;
 
+/**
+ * Class is responsible for handle response from API
+ */
 public class PostResultHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(PostResultHandler.class);
 
+    /**
+     * Method handles responses from API
+     * @param results
+     *      results fetched from API
+     * @return
+     *      list of results
+     */
     List<Result> handleResults(List<Future<Result>> results){
        return results
                .stream()

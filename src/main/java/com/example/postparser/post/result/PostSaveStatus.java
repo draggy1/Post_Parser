@@ -1,5 +1,8 @@
 package com.example.postparser.post.result;
 
+/**
+ * Status of save
+ */
 public enum PostSaveStatus {
     SUCCESS("Post with id: %d successfully saved to file"),
     FAILURE("Save post with id: %d to file failed"),

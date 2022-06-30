@@ -9,6 +9,9 @@ import com.google.inject.Scopes;
 
 import java.util.concurrent.ExecutorService;
 
+/**
+ * Guice module in which are configured binders for interfaces
+ */
 public class PostParserModule extends AbstractModule {
     protected void configure() {
         bind(Api.class).to(PlaceholderApiImpl.class).in(Scopes.NO_SCOPE);

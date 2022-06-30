@@ -6,6 +6,9 @@ import com.typesafe.config.ConfigFactory;
 
 import java.io.File;
 
+/**
+ * Common configuration for project
+ */
 public class Configuration {
     private final Config defaultConfig = ConfigFactory.parseResources("defaults.conf");
 

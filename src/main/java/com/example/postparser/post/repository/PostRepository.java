@@ -15,6 +15,11 @@ import java.io.IOException;
 import static com.example.postparser.post.result.PostSaveStatus.FAILURE;
 import static com.example.postparser.post.result.PostSaveStatus.SUCCESS;
 
+/**
+ * Post Repository
+ * @param mapper
+ *      mapper used to serialization and write to file
+ */
 public record PostRepository(ObjectMapper mapper) implements Repository {
     private static final Logger LOGGER = LoggerFactory.getLogger(PostRepository.class);
 
@@ -22,6 +27,15 @@ public record PostRepository(ObjectMapper mapper) implements Repository {
     public PostRepository {
     }
 
+    /**
+     * Method serializes to json and writes to file
+     * @param post
+     *      object which will be saved
+     * @param file
+     *       file representation
+     * @return
+     *      Result of save action
+     */
     @Override
     public Result save(Post post, File file) {
         try {

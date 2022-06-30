@@ -11,6 +11,11 @@ import java.util.concurrent.*;
 
 import static com.example.postparser.post.result.PostSaveStatus.INTERRUPTED;
 
+/**
+ * Class is responsible for invoke all created tasks using {@link ExecutorService}
+ * @param postsToFilesExecutor
+ *      save task to as list callable
+ */
 public record PostsSaveInvoker(ExecutorService postsToFilesExecutor) {
     private static final Logger LOGGER = LoggerFactory.getLogger(PostsSaveInvoker.class);
 
@@ -18,6 +23,13 @@ public record PostsSaveInvoker(ExecutorService postsToFilesExecutor) {
     public PostsSaveInvoker {
     }
 
+    /**
+     * Method executes save tasks
+     * @param postsToFilesTasks
+     *      save task to as list callable
+     * @return
+     *      save results
+     */
     List<Future<Result>> invokeSave(List<Callable<Result>> postsToFilesTasks) {
         try {
             return postsToFilesExecutor.invokeAll(postsToFilesTasks);

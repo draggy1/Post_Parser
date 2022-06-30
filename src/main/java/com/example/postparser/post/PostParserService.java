@@ -11,6 +11,17 @@ import java.util.Optional;
 
 import static com.example.postparser.post.result.PostSaveStatus.LACKING_API_ADDRESS;
 
+/**
+ * Main service for handling fetch post from api nad save it to file
+ * @param api
+ *      class responsible for Api call
+ * @param creator
+ *      save task creator
+ * @param invoker
+ *      save task invoker (performer)
+ * @param handler
+ *      result handler
+ */
 public record PostParserService(Api api,
                                 PostsToFilesTaskCreator creator,
                                 PostsSaveInvoker invoker,
@@ -23,6 +34,9 @@ public record PostParserService(Api api,
     public PostParserService {
     }
 
+    /**
+     * Method is responsible for parsing posts from api to file and save it
+     */
     public void parse() {
         Optional.of(api.getAllPosts())
                 .map(creator::createSaveToFileTasks)

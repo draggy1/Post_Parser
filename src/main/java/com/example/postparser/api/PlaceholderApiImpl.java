@@ -19,6 +19,11 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementation of {@link Api} - connects to placeholder api
+ * @param config
+ *      common configuration for all project {@link Configuration}
+ */
 public record PlaceholderApiImpl(Configuration config) implements Api {
     private static final Logger LOGGER = LoggerFactory.getLogger(PlaceholderApiImpl.class);
     public static final String POSTS = "posts";
@@ -28,6 +33,11 @@ public record PlaceholderApiImpl(Configuration config) implements Api {
     public PlaceholderApiImpl {
     }
 
+    /**
+     * Get all posts from placeholder api
+     * @return
+     *      List of posts {@link Post}
+     */
     @Override
     public List<Post> getAllPosts() {
         return prepareGetPostsUri(config.getPlaceholderUrl())
